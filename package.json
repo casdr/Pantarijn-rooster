@@ -1,0 +1,25 @@
+{
+  "name": "Pantarijn-rooster",
+  "version": "1.0.0",
+  "description": "Pantarijn-rooster",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dralletje/Pantarijn-rooster.git"
+  },
+  "author": "",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/dralletje/Pantarijn-rooster/issues"
+  },
+  "homepage": "https://github.com/dralletje/Pantarijn-rooster",
+  "dependencies": {
+    "bluebird": "^2.3.2",
+    "cheerio": "^0.17.0",
+    "request": "^2.41.0",
+    "tough-cookie": "^0.12.1"
+  }
+}
