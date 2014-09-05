@@ -1,6 +1,7 @@
 request = require('request')
 cheerio = require('cheerio')
 Promise = require 'bluebird'
+_ = require 'lodash'
 
 base = "http://school.zermelo.nl/Pantarijn/infoweb"
 weeknummer = 38
@@ -30,27 +31,31 @@ module.exports = (leerlingnummer) ->
 
   .then (html) ->
     $ = cheerio.load html
+    _.map $('.container .nobr, .vrij'), (les) ->
+      $les = $(les)
+      if $les.is '.vrij'
+        return null
 
-    vakken = {}
-
-    els = $('.container .nobr, .vrij').each (index) ->
-      $this = $(this)
-      if $this.is '.vrij'
-        return
-
-      [docent, vak, lokaal] = $this.contents().filter (i, el) ->
+      [docent, vak, lokaal] = $les.contents().filter (i, el) ->
         el.name isnt 'br' # Remove line breakes
       .map (i, el) ->
         $(el).text()
 
-      vakken[index] = [docent, vak, lokaal]
-    return vakken
+      [docent, vak, lokaal]
+
 
   .then (vakken) -> # Place it in a grid
-    # TODO: ^^^
+    dagen = []
+    for vak,i in vakken
+      dag = Math.floor i % DAGEN
+      (dagen[dag] ||= []).push vak
+    return dagen
 
   .catch (err) ->
     console.log err.stack
 
 if not module.parent?
-  module.exports process.argv[2]
+  if process.argv[2]?
+    module.exports(process.argv[2]).then(console.log)
+  else
+    console.log 'Geef een leerlingnummer op!'
