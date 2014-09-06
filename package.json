@@ -21,7 +21,6 @@
     "cheerio": "^0.17.0",
     "lodash": "^2.4.1",
     "request": "^2.41.0",
-    "sleep": "^1.1.8",
     "sleeprest": "^0.1.8"
   }
 }
