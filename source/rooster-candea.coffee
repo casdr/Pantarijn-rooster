@@ -47,8 +47,7 @@ module.exports = (leerlingnummer, weeknummer) ->
     for dag in DAGEN
       dagen.push []
     for vak,i in vakken
-      [_, dag, _, _, _] = vak
-      dagen[dag].push vak
+      dagen[vak[1]].push vak
     return dagen
 
   .catch (err) ->
