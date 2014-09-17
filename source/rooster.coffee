@@ -31,7 +31,7 @@ module.exports = (leerlingnummer) ->
 
   .then (html) ->
     $ = cheerio.load html
-    _.map $('.container .nobr, .vrij'), (les) ->
+    _.map $('.nobr, .vrij'), (les) ->
       $les = $(les)
       if $les.is '.vrij'
         return null
@@ -40,6 +40,24 @@ module.exports = (leerlingnummer) ->
         el.name isnt 'br' # Remove line breakes
       .map (i, el) ->
         $(el).text()
+
+      text = null
+      if docent is '... ' or lokaal is '... '
+        container = $les.parent().parent().parent()
+        hovertext = container.attr('onmouseover').match(/showHoverInfo\('', '(.*)', this\);/)[0]
+        text = $(hovertext).text()
+
+      # Fix meerdere docenten
+      if docent is '... '
+        docent = text.match(/Docenten((?:[a-z]+ )+)/)[1].trim().split(' ')
+      else
+        docent = [docent]
+
+      # Fix meerdere lokalen
+      if lokaal is '... '
+        lokaal = text.match(/Lokalen((?:[a-z0-9]+ )+)/)[1].trim().split(' ')
+      else
+        lokaal = [lokaal]
 
       [docent, vak, lokaal]
 
