@@ -12,4 +12,5 @@ server.resource('/leerling/:nummer').get (req) ->
   {nummer} = req.params
   rooster nummer
 
-server.listen 1337
+port = process.argv[2] or 1337
+server.listen port
