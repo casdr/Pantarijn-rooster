@@ -10,7 +10,8 @@ server.get (req) ->
 
 server.resource('/leerling/:nummer').get (req) ->
   {nummer} = req.params
-  rooster nummer
+  rooster(nummer).then (result) ->
+    rooster: result
 
 port = process.argv[2] or 1337
 server.listen port
